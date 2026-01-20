@@ -17,22 +17,25 @@ BUSINESS_NAME = "Kai MB Mechanic"
 TAGLINE = "Mobile bike servicing & repairs — home, work, apartment."
 CURRENCY = "AUD"
 
-# Admin login (set env var KAI_ADMIN_PASSWORD for better security)
-ADMIN_PASSWORD = os.getenv("KAI_ADMIN_PASSWORD", "kai123")  # CHANGE THIS AFTER TESTING
+# Admin password:
+# 1) Uses admin_password.txt if it exists (local reset)
+# 2) Else uses Railway/GitHub secret KAI_ADMIN_PASSWORD
+# 3) Else defaults to "kai123" (ONLY for first-time testing)
+LOCAL_ADMIN_PW_FILE = "admin_password.txt"
+DEFAULT_ADMIN_PASSWORD = "kai123"
 
-# Database file (created in the same folder as app.py)
 DB_PATH = "bookings.db"
 
-# Services (name -> base price)
-SERVICES: Dict[str, int] = {
+# === SERVICES & PRICES ===
+SERVICES = {
     "Safety Tune ($99)": 99,
     "Full Service ($189)": 189,
     "Family / 2 Bikes ($299)": 299,
     "Family / 3 Bikes ($420)": 420,
 }
 
-# Add-ons (optional, customer can tick; price added to total)
-ADDONS: Dict[str, int] = {
+# === OPTIONAL ADD-ONS ===
+ADDONS = {
     "Tube install labour (+$35)": 35,
     "Brake pads install labour (+$40)": 40,
     "Chain install labour (+$40)": 40,
@@ -40,27 +43,27 @@ ADDONS: Dict[str, int] = {
     "E-bike inspection (+$40)": 40,
 }
 
-# Work schedule (Mon=0 ... Sun=6)
-WORK_DAYS = {0, 1, 2, 3, 4, 5}  # Mon–Sat
-DAY_START = time(9, 0)
-DAY_END = time(18, 0)
-SLOT_MINUTES = 60
+# === WORK SCHEDULE ===
+# Monday = 0 ... Sunday = 6
+WORK_DAYS = {0, 1, 2, 3, 4, 5}   # Mon–Sat
+DAY_START = time(9, 0)          # 09:00
+DAY_END   = time(18, 0)         # 18:00
+SLOT_MINUTES = 60               # 60 min per booking
 
-# Booking limits
+# === BOOKING RULES ===
 MAX_DAYS_AHEAD = 30
-MIN_LEAD_TIME_MINUTES = 60  # block bookings too soon (e.g., within 60 minutes)
+MIN_LEAD_TIME_MINUTES = 60
 
-# Service area + travel fees (simple)
-# Customer picks a zone; fee added to total
-TRAVEL_ZONES: Dict[str, int] = {
+# === SERVICE AREAS (NO MAP, SIMPLE + EFFECTIVE) ===
+TRAVEL_ZONES = {
     "Included area (no travel fee)": 0,
     "Outside area (+$20 travel fee)": 20,
     "Farther area (+$40 travel fee)": 40,
 }
 
-# Customer-facing policy
 POLICY_NOTE = "Call-out included for included area. Parts are extra. You'll be contacted to confirm."
 # ---------- END SETTINGS ----------
+
 
 
 @dataclass
